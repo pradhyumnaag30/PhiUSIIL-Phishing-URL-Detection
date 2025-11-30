@@ -15,6 +15,18 @@ This project implements and evaluates a range of practical machine-learning mode
 
 > Arvind Prasad, Shalini Chandra, “PhiUSIIL: A diverse security profile empowered phishing URL detection framework based on similarity index and incremental learning.” 2024.
 > [https://linkinghub.elsevier.com/retrieve/pii/S0167404823004558](https://linkinghub.elsevier.com/retrieve/pii/S0167404823004558)
+
+# **Dataset Overview**
+
+The **PHIUSIIL Phishing URL Dataset** contains 235795 instances of URLs, each represented by **54 features** and a **binary label** indicating whether the URL corresponds to a legitimate URL (`1`) or a phishing URL (`0`).
+
+### **Feature Types**
+
+* The PHIUSIIL dataset contains both **pre-fetch URL features** and **post-fetch webpage content features**, which together provide a very strong signal for phishing detection.
+* Examples of pre-fetch URL Features include **URL length**, **domain length**, **Character-level patterns** and **HTTPS flag**.
+* Examples of post-fetch Features that are based on the content of the website include **Favicon presence**, **Redirect counts**, **Responsiveness flag** and **External form submit, hidden fields, password fields**.
+* Labels are **balanced enough**. (~42.8% from `class 0` vs ~57.2% from `class 1`)
+
 # **Approach 1: Baseline Models**
 
 Because the dataset includes many high-signal post-fetch features (HTML structure, JavaScript behaviors, DOM statistics, redirect metadata, etc.), classical models receive extremely discriminative information that makes the classes almost perfectly separable.
