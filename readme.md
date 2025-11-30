@@ -7,7 +7,7 @@ This project implements and evaluates a range of practical machine-learning mode
 | Offline Batch Models (Full Feature Set)           | Decision Tree / RF   | **1.0000** |
 | Few-Shot Learning (≤ 10% Training Data)           | Decision Tree        | **1.0000** |
 | Incremental Learning (All Numeric Features)        | BernoulliNB          | **0.9865** |
-| Real-Time Incremental Learning (URL-Only Features) | Passive-Aggressive   | **0.9619** |
+| Incremental Learning (URL-Only Features) | Passive-Aggressive   | **0.9619** |
 # **Dataset Citation**
 
 > [PhiUSIIL Phishing URL (Website) - UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/967/phiusiil+phishing+url+dataset)
@@ -28,7 +28,7 @@ To establish a clear upper bound on achievable performance, I first trained a se
 | Random Forest       | **1.000000** | **1.000000** | **1.000000** | **1.000000** | **1.000000** |
 | Extra Trees         | 0.999972     | 0.999951     | **1.000000** | 0.999975     | **1.000000** |
 
-These results confirm that the PHIUSIIL dataset is fully separable with classical models when all features are available, providing a benchmark against which more constrained scenarios—few-shot learning, incremental learning, and real-time URL-only models—can be compared.
+These results confirm that the PHIUSIIL dataset is fully separable with classical models when all features are available, providing a benchmark against which more constrained scenarios—few-shot learning, incremental learning, and URL-only models—can be compared.
 # **Approach 2: Few-Shot Learning (1% → 50% Training Data)**
 
 To evaluate how well classical models perform when training data is extremely limited, I repeated the baseline experiments using **only a small fraction of the training set**, while keeping the **same 30% test set** as in the baseline. I tested 1%, 5%, 10%, 20%, 30%, 40%, and 50% of the training data using the same four models used in the baselines. Although the full table is very large, the **best model for each data fraction** is summarized below.
@@ -70,15 +70,15 @@ Unlike the offline baselines, incremental models:
 ![learningcurve1](learning1.png)
 
 Incremental learners perform remarkably well despite the strict one-pass constraint. **Bernoulli Naive Bayes achieves 98.65% accuracy**, demonstrating that a lightweight, streaming-compatible classifier can still achieve near-baseline performance without accessing the full dataset at once.
-# **Approach 4: Real-Time Incremental Learning (URL-Only Features)**
+# **Approach 4: Incremental Learning (URL-Only Features)**
 
 While the PHIUSIIL dataset contains many powerful **post-fetch features** (HTML structure, JavaScript behaviors, page metadata, redirects, forms, etc.), these attributes require **fully loading the webpage**. In real-world security systems, this is often **too slow or too risky**—a phishing URL may need to be classified *before* any page content is fetched.
 
-To explore this constraint, I isolated a feature subset containing only **real-time, pre-fetch information** derived solely from the URL string, its domain, character ratios, TLD statistics, and lexical patterns. These features can be computed the moment an email, SMS, or browser encounters a URL—**with no network request required**.
+To explore this constraint, I isolated a feature subset containing only **pre-fetch information** derived solely from the URL string, its domain, character ratios, TLD statistics, and lexical patterns. These features can be computed the moment an email, SMS, or browser encounters a URL—**with no network request required**.
 
 Using this restricted feature set, I repeated the incremental learning experiment with the same prequential setup.
 
-## **Results (Real-Time Prequential Accuracy)**
+## **Results (Prequential Accuracy)**
 
 | Model              | Incremental Accuracy |
 | ------------------ | -------------------- |
@@ -90,16 +90,16 @@ Using this restricted feature set, I repeated the incremental learning experimen
 
 ![learningcurve2](learning2.png)
 
-Despite losing all HTML/DOM/JavaScript–based signals, the models still achieve **93–96% accuracy** in a pure streaming, URL-only setting. This suggests that **lexical URL features alone carry strong predictive power**, enabling fast, safe, real-time phishing detection without loading the target website.
+Despite losing all HTML/DOM/JavaScript–based signals, the models still achieve **93–96% accuracy** in a pure streaming, URL-only setting.
 # **Conclusion**
 
 Across all four experimental settings, the PHIUSIIL dataset proves to be **highly separable**, even under severe constraints. Traditional offline models (Approach 1) achieve near-perfect performance, establishing an extremely high upper bound. Yet even when the available training data is drastically reduced (Approach 2), tree-based models maintain **>99.9% accuracy** with as little as **1–5%** of the dataset — showing that few-shot learning remains highly viable.
 
 In more realistic streaming conditions (Approach 3), where the model must predict before seeing the true label and can only update once per sample, incremental learners still perform well. Bernoulli Naive Bayes reaches **98.65% accuracy**, demonstrating that simple, lightweight algorithms can remain competitive under strict one-pass constraints.
 
-Finally, even when restricted to **pure URL-only, pre-fetch features** (Approach 4), incremental learners achieve **93–96% accuracy**, confirming that a large portion of phishing signal is encoded directly in the lexical structure of the URL itself. This makes fast, safe, real-time phishing detection feasible without loading the webpage — crucial for email clients, browsers, and endpoint security systems.
+Finally, even when restricted to **pure URL-only, pre-fetch features** (Approach 4), incremental learners achieve **93–96% accuracy**, confirming that a large portion of phishing signal is encoded directly in the lexical structure of the URL itself. This makes fast, safe, phishing detection feasible without loading the webpage — crucial for email clients, browsers, and endpoint security systems.
 
-Overall, the experiments show that phishing URLs in this dataset can be **reliably identified across offline, few-shot, incremental, and real-time scenarios**, providing a strong foundation for both high-performance batch models and lightweight, deployable streaming detectors.
+Overall, the experiments show that phishing URLs in this dataset can be **reliably identified across offline, few-shot, incremental, and URL-only scenarios**, providing a strong foundation for both high-performance batch models and lightweight, deployable streaming detectors.
 # **How to Use This Repository**
 
 ### **1. Install dependencies**
