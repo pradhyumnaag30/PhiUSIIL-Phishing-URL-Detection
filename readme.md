@@ -4,10 +4,10 @@ This project implements and evaluates a range of practical machine-learning mode
 
 | Experiment Type                                   | Best Model          | Accuracy |
 |---------------------------------------------------|----------------------|----------|
-| Offline Batch Models (Full Feature Set)           | Decision Tree / RF   | **1.0000** |
+| Full Dataset                                      | Decision Tree / RF   | **1.0000** |
 | Few-Shot Learning (≤ 10% Training Data)           | Decision Tree        | **1.0000** |
-| Incremental Learning (All Numeric Features)        | BernoulliNB          | **0.9865** |
-| Incremental Learning (URL-Only Features) | Passive-Aggressive   | **0.9619** |
+| Incremental Learning (All Numeric Features)       | BernoulliNB          | **0.9865** |
+| Incremental Learning (URL-Only Features)          | Passive-Aggressive   | **0.9619** |
 # **Dataset Citation**
 
 > [PhiUSIIL Phishing URL (Website) - UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/967/phiusiil+phishing+url+dataset)
@@ -17,7 +17,7 @@ This project implements and evaluates a range of practical machine-learning mode
 > [https://linkinghub.elsevier.com/retrieve/pii/S0167404823004558](https://linkinghub.elsevier.com/retrieve/pii/S0167404823004558)
 # **Approach 1: Baseline Models**
 
-To establish a clear upper bound on achievable performance, I first trained a set of standard machine-learning classifiers using a **70/30 stratified train–test split**. These baselines use the *full numeric feature set*, including both URL-derived and post-fetch features (HTML/JS/DOM attributes). This represents the **peak offline performance** one can expect from the PHIUSIIL dataset.
+To establish a clear upper bound on achievable performance, I first trained a set of standard machine-learning classifiers using a **70/30 stratified train–test split**. These baselines use the *full numeric feature set*, including both URL-derived and post-fetch features (HTML/JS/DOM attributes). This represents the **peak performance** one can expect from the PHIUSIIL dataset.
 
 ## **Results (Full Metrics)**
 
@@ -50,7 +50,7 @@ Even under severe data scarcity, the PHIUSIIL dataset remains highly separable. 
 
 To simulate a real-world streaming environment—where new URLs arrive continuously and the model must update itself on the fly—I evaluated **incremental learning algorithms** using a **prequential (predict-then-update)** strategy. Each model was initialized with a small seed set (25 samples per class), then exposed to the full shuffled dataset one instance at a time.
 
-Unlike the offline baselines, incremental models:
+Unlike the baselines, incremental models:
 
 * see **one sample at a time**
 * must **predict first**, then receive the true label
@@ -93,13 +93,13 @@ Using this restricted feature set, I repeated the incremental learning experimen
 Despite losing all HTML/DOM/JavaScript–based signals, the models still achieve **93–96% accuracy** in a pure streaming, URL-only setting.
 # **Conclusion**
 
-Across all four experimental settings, the PHIUSIIL dataset proves to be **highly separable**, even under severe constraints. Traditional offline models (Approach 1) achieve near-perfect performance, establishing an extremely high upper bound. Yet even when the available training data is drastically reduced (Approach 2), tree-based models maintain **>99.9% accuracy** with as little as **1–5%** of the dataset — showing that few-shot learning remains highly viable.
+Across all four experimental settings, the PHIUSIIL dataset proves to be **highly separable**, even under severe constraints. The baseline models achieve near-perfect performance, establishing an extremely high upper bound. Yet even when the available training data is drastically reduced (Approach 2), tree-based models maintain **>99.9% accuracy** with as little as **1–5%** of the dataset — showing that few-shot learning remains highly viable.
 
 In more realistic streaming conditions (Approach 3), where the model must predict before seeing the true label and can only update once per sample, incremental learners still perform well. Bernoulli Naive Bayes reaches **98.65% accuracy**, demonstrating that simple, lightweight algorithms can remain competitive under strict one-pass constraints.
 
 Finally, even when restricted to **pure URL-only, pre-fetch features** (Approach 4), incremental learners achieve **93–96% accuracy**, confirming that a large portion of phishing signal is encoded directly in the lexical structure of the URL itself. This makes fast, safe, phishing detection feasible without loading the webpage — crucial for email clients, browsers, and endpoint security systems.
 
-Overall, the experiments show that phishing URLs in this dataset can be **reliably identified across offline, few-shot, incremental, and URL-only scenarios**, providing a strong foundation for both high-performance batch models and lightweight, deployable streaming detectors.
+Overall, the experiments show that phishing URLs in this dataset can be **reliably identified across baseline, few-shot, incremental, and URL-only scenarios**, providing a strong foundation for both high-performance batch models and lightweight, deployable streaming detectors.
 # **How to Use This Repository**
 
 ### **1. Install dependencies**
