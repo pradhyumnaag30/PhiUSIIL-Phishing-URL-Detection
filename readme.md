@@ -1,4 +1,4 @@
-# **Building Practical Machine Learning Models for Phishing URL Detection**
+# **Building Practical Machine Learning Models for Phishing URL Detection based on the PhiUSIIL Dataset**
 This project implements and evaluates a range of practical machine-learning models on the **PHIUSIIL Phishing URL Dataset**, with the goal of identifying the strongest-performing approach for the `binary classification` task of distinguishing **legitimate** URLs from **phishing** URLs.
 # ⭐ Results Summary
 
