@@ -17,7 +17,9 @@ This project implements and evaluates a range of practical machine-learning mode
 > [https://linkinghub.elsevier.com/retrieve/pii/S0167404823004558](https://linkinghub.elsevier.com/retrieve/pii/S0167404823004558)
 # **Approach 1: Baseline Models**
 
-To establish a clear upper bound on achievable performance, I first trained a set of standard machine-learning classifiers using a **70/30 stratified train–test split**. These baselines use the *full numeric feature set*, including both URL-derived and post-fetch features (HTML/JS/DOM attributes). This represents the **peak performance** one can expect from the PHIUSIIL dataset.
+Because the dataset includes many high-signal post-fetch features (HTML structure, JavaScript behaviors, DOM statistics, redirect metadata, etc.), classical models receive extremely discriminative information that makes the classes almost perfectly separable.
+
+These results confirm that the PHIUSIIL dataset is fully separable with classical models when all features are available, providing a benchmark against which more constrained scenarios—few-shot learning, incremental learning, and URL-only models—can be compared.
 
 ## **Results (Full Metrics)**
 
