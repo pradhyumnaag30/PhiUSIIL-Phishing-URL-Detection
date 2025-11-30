@@ -4,7 +4,7 @@ This project implements and evaluates a range of practical machine-learning mode
 
 | Experiment Type                                   | Best Model          | Accuracy |
 |---------------------------------------------------|----------------------|----------|
-| Full Dataset                                      | Decision Tree / RF   | **1.0000** |
+| 70/30 Stratified Train–Test Split                 | Decision Tree / RF   | **1.0000** |
 | Few-Shot Learning (≤ 10% Training Data)           | Decision Tree        | **1.0000** |
 | Incremental Learning (All Numeric Features)       | BernoulliNB          | **0.9865** |
 | Incremental Learning (URL-Only Features)          | Passive-Aggressive   | **0.9619** |
