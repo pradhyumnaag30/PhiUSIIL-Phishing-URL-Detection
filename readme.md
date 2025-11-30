@@ -23,9 +23,12 @@ The **PHIUSIIL Phishing URL Dataset** contains 235795 instances of URLs, each re
 ### **Feature Types**
 
 * The PHIUSIIL dataset contains both **pre-fetch URL features** and **post-fetch webpage content features**, which together provide a very strong signal for phishing detection.
-* Examples of pre-fetch URL Features include **URL length**, **domain length**, **Character-level patterns** and **HTTPS flag**.
-* Examples of post-fetch Features that are based on the content of the website include **Favicon presence**, **Redirect counts**, **Responsiveness flag** and **External form submit, hidden fields, password fields**.
-* Labels are **balanced enough**. (~42.8% from `class 0` vs ~57.2% from `class 1`)
+* Examples of pre-fetch URL features include **URL length**, **domain length**, **character-level patterns**, and the **HTTPS flag**. These represent what email filters, proxies, and browsers can evaluate *before* loading a webpage.
+* Post-fetch features are those that require fetching and parsing the webpage, making a network request unavoidable. Examples include **favicon presence**, **redirect counts**, **responsiveness flag**, and **external form submit, hidden fields, password fields**.
+* Labels are **balanced enough** (~42.8% from `class 0` vs ~57.2% from `class 1`).
+
+### **Why This Matters**
+This pre-fetch vs post-fetch distinction is **not inherent in the dataset** — it is my analytical interpretation, and it directly informs the design of the experiments (e.g., URL-only incremental learning vs. full-feature baselines).
 
 # **Approach 1: Baseline Models**
 
