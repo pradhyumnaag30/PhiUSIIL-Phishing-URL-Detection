@@ -1,4 +1,4 @@
-# **Building Practical Machine Learning Models for Phishing URL Detection based on the PhiUSIIL Dataset**
+# **Building Practical Machine Learning Models for Phishing URL Detection**
 This project implements and evaluates a range of practical machine-learning models on the **PHIUSIIL Phishing URL Dataset**, with the goal of identifying the strongest-performing approach for the `binary classification` task of distinguishing **legitimate** URLs from **phishing** URLs.
 # ⭐ Results Summary
 
@@ -65,6 +65,10 @@ Unlike the offline baselines, incremental models:
 | Passive-Aggressive | 0.968490             |
 | **BernoulliNB**    | **0.986518**         |
 
+## **Prequential Evaluation Curve**
+
+![learningcurve1](learning1.png)
+
 Incremental learners perform remarkably well despite the strict one-pass constraint. **Bernoulli Naive Bayes achieves 98.65% accuracy**, demonstrating that a lightweight, streaming-compatible classifier can still achieve near-baseline performance without accessing the full dataset at once.
 # **Approach 4: Real-Time Incremental Learning (URL-Only Features)**
 
@@ -81,6 +85,10 @@ Using this restricted feature set, I repeated the incremental learning experimen
 | SGDClassifier      | 0.960309             |
 | Passive-Aggressive | 0.961865             |
 | BernoulliNB        | 0.936093             |
+
+## **Prequential Evaluation Curve**
+
+![learningcurve2](learning2.png)
 
 Despite losing all HTML/DOM/JavaScript–based signals, the models still achieve **93–96% accuracy** in a pure streaming, URL-only setting. This suggests that **lexical URL features alone carry strong predictive power**, enabling fast, safe, real-time phishing detection without loading the target website.
 # **Conclusion**
